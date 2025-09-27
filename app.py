@@ -117,7 +117,7 @@ def positions():
 
     try:
         api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
-        positions = api.GetPositions()  # Updated method
+        positions = api.NetPosition()  # Updated method
     except Exception as e:
         return f"Error fetching positions: {e}", 500
 
@@ -133,7 +133,7 @@ def holdings():
 
     try:
         api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
-        holdings = api.GetHoldings()  # Updated method
+        holdings = api.Holdings()  # Updated method
     except Exception as e:
         return f"Error fetching holdings: {e}", 500
 
@@ -141,6 +141,22 @@ def holdings():
         <h1>Holdings</h1>
         <pre>{{ holdings }}</pre>
     """, holdings=holdings)
+
+@app.route('/transactions')
+def limits():
+    if not session.get('requestId'):
+        return redirect(url_for('login'))
+
+    try:
+        api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
+        transactions = api.GetAllTransactionHistory(segment = SegmentTypeEnum.EQUITY, fromDate = "2024-10-06", toDate = "2025-11-06")
+    except Exception as e:
+        return f"Error fetching transactions: {e}", 500
+
+    return render_template_string(NAV_PANEL + """
+        <h1>Transactions</h1>
+        <pre>{{ transactions }}</pre>
+    """, transactions=transactions)
 
 @app.route('/limits')
 def limits():
