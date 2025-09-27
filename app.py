@@ -50,21 +50,18 @@ def index():
 
 @app.route('/login')
 def login():
-    # Capture request_id on login redirect
     request_id = request.args.get('request_id')
     if request_id:
         session['requestId'] = request_id
         try:
-            # Initialize Nuvama session
             api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, request_id, True)
-            api.Init()
+            login_data = api.GetLoginData()  # Correct method to get login session details
         except Exception as e:
             return f"Login failed: {e}", 401
-        
         return redirect(url_for('index'))
     else:
-        # Redirect user to Nuvama login page
         return redirect(NuvamaLoginURL)
+
 
 @app.route('/logout')
 def logout():
