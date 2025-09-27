@@ -35,20 +35,20 @@ def index():
     try:
         api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
         
-        # Replace GetSummary/GetTrades with Request() calls
-        summary = api.Request("account/summary")  # check exact endpoint name in docs
-        trades = api.Request("account/trades")    # check exact endpoint name in docs
+        # Fetch all orders and trades
+        orders = api.OrderBook()
+        trades = api.TradeBook()
 
     except Exception as e:
         return f"Error connecting to Nuvama API: {e}", 500
 
     return render_template_string("""
-        <h1>Account Summary</h1>
-        <pre>{{ summary }}</pre>
-        <h2>Trades</h2>
+        <h1>Order Book</h1>
+        <pre>{{ orders }}</pre>
+        <h2>Trade Book</h2>
         <pre>{{ trades }}</pre>
         <a href="{{ url_for('logout') }}">Logout</a>
-    """, summary=summary, trades=trades)
+    """, orders=orders, trades=trades)
 
 @app.route('/login')
 def login():
