@@ -3,3 +3,13 @@
  * Running on http://127.0.0.1:5000
  * Running on http://172.26.6.173:5000
 2025-09-27 02:23:42,360 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2025-09-27 03:43:49,003 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.26.6.173:5000
+2025-09-27 03:43:49,004 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2025-09-27 03:44:01,102 [INFO] werkzeug: 103.184.104.26 - - [27/Sep/2025 03:44:01] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-27 03:44:01,111 [INFO] werkzeug: 103.184.104.26 - - [27/Sep/2025 03:44:01] "[32mGET /login HTTP/1.1[0m" 302 -
+2025-09-27 03:44:35,965 [INFO] werkzeug: 127.0.0.1 - - [27/Sep/2025 03:44:35] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-27 03:44:49,664 [INFO] werkzeug: 103.184.104.26 - - [27/Sep/2025 03:44:49] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-27 03:44:49,672 [INFO] werkzeug: 103.184.104.26 - - [27/Sep/2025 03:44:49] "[32mGET /login HTTP/1.1[0m" 302 -
