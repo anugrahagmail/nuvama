@@ -35,7 +35,7 @@ NAV_PANEL = """
     <a href="{{ url_for('positions') }}">Positions</a> |
     <a href="{{ url_for('holdings') }}">Holdings</a> |
     <a href="{{ url_for('limits') }}">Limits</a> |
-    <a href="{{ url_for('funds') }}">Funds</a> |
+    <a href="{{ url_for('transactions') }}">Transactions</a> |
     <a href="{{ url_for('logout') }}">Logout</a>
 </nav>
 <hr>
