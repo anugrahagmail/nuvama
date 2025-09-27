@@ -143,7 +143,7 @@ def holdings():
     """, holdings=holdings)
 
 @app.route('/transactions')
-def limits():
+def transactions():
     if not session.get('requestId'):
         return redirect(url_for('login'))
 
