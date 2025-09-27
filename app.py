@@ -26,29 +26,32 @@ NuvamaLoginURL = (
     f"?api_key={NUVAMA_API_KEY}&redirect_uri={BASE_URL}/login"
 )
 
+# Navigation panel to include in all pages
+NAV_PANEL = """
+<nav style="padding: 10px; background-color: #f0f0f0;">
+    <a href="{{ url_for('index') }}">Home</a> |
+    <a href="{{ url_for('orders') }}">Orders</a> |
+    <a href="{{ url_for('trades') }}">Trades</a> |
+    <a href="{{ url_for('positions') }}">Positions</a> |
+    <a href="{{ url_for('holdings') }}">Holdings</a> |
+    <a href="{{ url_for('limits') }}">Limits</a> |
+    <a href="{{ url_for('funds') }}">Funds</a> |
+    <a href="{{ url_for('logout') }}">Logout</a>
+</nav>
+<hr>
+"""
+
+# ----------------- Routes -----------------
+
 @app.route('/')
 def index():
     if not session.get('requestId'):
-        # No requestId means not logged in, redirect to login
         return redirect(url_for('login'))
-    
-    try:
-        api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
-        
-        # Fetch all orders and trades
-        orders = api.OrderBook()
-        trades = api.TradeBook()
 
-    except Exception as e:
-        return f"Error connecting to Nuvama API: {e}", 500
-
-    return render_template_string("""
-        <h1>Order Book</h1>
-        <pre>{{ orders }}</pre>
-        <h2>Trade Book</h2>
-        <pre>{{ trades }}</pre>
-        <a href="{{ url_for('logout') }}">Logout</a>
-    """, orders=orders, trades=trades)
+    return render_template_string(NAV_PANEL + """
+        <h1>Welcome to Nuvama Dashboard</h1>
+        <p>Select a feature from the navigation bar.</p>
+    """)
 
 @app.route('/login')
 def login():
@@ -73,5 +76,106 @@ def logout():
 def health():
     return "OK", 200
 
+# ----------------- API Pages -----------------
+
+@app.route('/orders')
+def orders():
+    if not session.get('requestId'):
+        return redirect(url_for('login'))
+
+    try:
+        api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
+        orders = api.OrderBook()
+    except Exception as e:
+        return f"Error fetching orders: {e}", 500
+
+    return render_template_string(NAV_PANEL + """
+        <h1>Order Book</h1>
+        <pre>{{ orders }}</pre>
+    """, orders=orders)
+
+@app.route('/trades')
+def trades():
+    if not session.get('requestId'):
+        return redirect(url_for('login'))
+
+    try:
+        api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
+        trades = api.TradeBook()
+    except Exception as e:
+        return f"Error fetching trades: {e}", 500
+
+    return render_template_string(NAV_PANEL + """
+        <h1>Trade Book</h1>
+        <pre>{{ trades }}</pre>
+    """, trades=trades)
+
+@app.route('/positions')
+def positions():
+    if not session.get('requestId'):
+        return redirect(url_for('login'))
+
+    try:
+        api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
+        positions = api.PositionBook()
+    except Exception as e:
+        return f"Error fetching positions: {e}", 500
+
+    return render_template_string(NAV_PANEL + """
+        <h1>Positions</h1>
+        <pre>{{ positions }}</pre>
+    """, positions=positions)
+
+@app.route('/holdings')
+def holdings():
+    if not session.get('requestId'):
+        return redirect(url_for('login'))
+
+    try:
+        api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
+        holdings = api.HoldingBook()
+    except Exception as e:
+        return f"Error fetching holdings: {e}", 500
+
+    return render_template_string(NAV_PANEL + """
+        <h1>Holdings</h1>
+        <pre>{{ holdings }}</pre>
+    """, holdings=holdings)
+
+@app.route('/limits')
+def limits():
+    if not session.get('requestId'):
+        return redirect(url_for('login'))
+
+    try:
+        api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
+        limits = api.Limits()
+    except Exception as e:
+        return f"Error fetching limits: {e}", 500
+
+    return render_template_string(NAV_PANEL + """
+        <h1>Limits</h1>
+        <pre>{{ limits }}</pre>
+    """, limits=limits)
+
+@app.route('/funds')
+def funds():
+    if not session.get('requestId'):
+        return redirect(url_for('login'))
+
+    try:
+        api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
+        funds = api.Funds()
+    except Exception as e:
+        return f"Error fetching funds: {e}", 500
+
+    return render_template_string(NAV_PANEL + """
+        <h1>Funds</h1>
+        <pre>{{ funds }}</pre>
+    """, funds=funds)
+
+# ----------------- Run App -----------------
+
 if __name__ == "__main__":
+    # Keep host/port same as last working version for Lightsail subdomain
     app.run(host="0.0.0.0", port=5000)
