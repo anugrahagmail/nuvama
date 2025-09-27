@@ -34,8 +34,11 @@ def index():
     
     try:
         api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
-        summary = api.GetSummary()
-        trades = api.GetTrades()
+        
+        # Replace GetSummary/GetTrades with Request() calls
+        summary = api.Request("account/summary")  # check exact endpoint name in docs
+        trades = api.Request("account/trades")    # check exact endpoint name in docs
+
     except Exception as e:
         return f"Error connecting to Nuvama API: {e}", 500
 
