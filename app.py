@@ -117,7 +117,7 @@ def positions():
 
     try:
         api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
-        positions = api.PositionBook()
+        positions = api.GetPositions()  # Updated method
     except Exception as e:
         return f"Error fetching positions: {e}", 500
 
@@ -133,7 +133,7 @@ def holdings():
 
     try:
         api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
-        holdings = api.HoldingBook()
+        holdings = api.GetHoldings()  # Updated method
     except Exception as e:
         return f"Error fetching holdings: {e}", 500
 
@@ -165,7 +165,7 @@ def funds():
 
     try:
         api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
-        funds = api.Funds()
+        funds = api.GetFunds()  # Updated method
     except Exception as e:
         return f"Error fetching funds: {e}", 500
 
@@ -177,5 +177,4 @@ def funds():
 # ----------------- Run App -----------------
 
 if __name__ == "__main__":
-    # Keep host/port same as last working version for Lightsail subdomain
     app.run(host="0.0.0.0", port=5000)
