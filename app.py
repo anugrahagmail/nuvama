@@ -16,6 +16,8 @@ Session(app)
 # Nuvama API credentials from environment variables
 NUVAMA_API_KEY = os.environ.get('NUVAMA_API_KEY')
 NUVAMA_API_SECRET = os.environ.get('NUVAMA_API_SECRET')
+ORDER_HISTORY_START_DATE = os.environ.get('ORDER_HISTORY_START_DATE')
+ORDER_HISTORY_END_DATE = os.environ.get('ORDER_HISTORY_END_DATE')
 
 # Base URL of your app, should be the same as Redirect URL registered with Nuvama
 BASE_URL = os.environ.get('BASE_URL', 'https://app.theriskdiary.com')
@@ -151,7 +153,7 @@ def orderhistory():
         api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
 
         # Call the proper API method
-        order_history = api.OrderHistory(StartDate="2024-10-06", EndDate="2025-11-06")
+        order_history = api.OrderHistory(StartDate=ORDER_HISTORY_START_DATE, EndDate=ORDER_HISTORY_END_DATE)
 
     except Exception as e:
         return f"Error fetching order history: {e}", 500
