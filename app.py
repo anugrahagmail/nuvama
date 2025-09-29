@@ -35,7 +35,7 @@ NAV_PANEL = """
     <a href="{{ url_for('positions') }}">Positions</a> |
     <a href="{{ url_for('holdings') }}">Holdings</a> |
     <a href="{{ url_for('limits') }}">Limits</a> |
-    <a href="{{ url_for('transactions') }}">Transactions</a> |
+    <a href="{{ url_for('orderhistory') }}">Order History</a> |
     <a href="{{ url_for('logout') }}">Logout</a>
 </nav>
 <hr>
@@ -142,21 +142,24 @@ def holdings():
         <pre>{{ holdings }}</pre>
     """, holdings=holdings)
 
-@app.route('/transactions')
-def transactions():
+@app.route('/orderhistory')
+def orderhistory():
     if not session.get('requestId'):
         return redirect(url_for('login'))
 
     try:
         api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
-        transactions = api.GetAllTransactionHistory(segment = SegmentTypeEnum.EQUITY, fromDate = "2024-10-06", toDate = "2025-11-06")
+
+        # Call the proper API method
+        order_history = api.OrderHistory(StartDate="2024-10-06", EndDate="2025-11-06")
+
     except Exception as e:
-        return f"Error fetching transactions: {e}", 500
+        return f"Error fetching order history: {e}", 500
 
     return render_template_string(NAV_PANEL + """
-        <h1>Transactions</h1>
-        <pre>{{ transactions }}</pre>
-    """, transactions=transactions)
+        <h1>Order History</h1>
+        <pre>{{ order_history }}</pre>
+    """, order_history=order_history)
 
 @app.route('/limits')
 def limits():
