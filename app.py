@@ -153,7 +153,7 @@ def orderhistory():
         api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
 
         # Call the proper API method
-        order_history = api.OrderHistory(StartDate="2023-10-06", EndDate="2023-11-06")
+        order_history = api.transaction(StartDate="2025-07-01", EndDate="2025-09-30")
         #order_history = api.GetAllTransactionHistory(segment = SegmentTypeEnum.EQUITY, fromDate = "2023-10-06", toDate = "2023-11-06")  
 
     except Exception as e:
