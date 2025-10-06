@@ -153,8 +153,8 @@ def orderhistory():
         api = APIConnect(NUVAMA_API_KEY, NUVAMA_API_SECRET, session['requestId'], True)
 
         # Call the proper API method
-        order_history = api.OrderHistory(StartDate=ORDER_HISTORY_START_DATE, EndDate=ORDER_HISTORY_END_DATE)
-
+        # order_history = api.OrderHistory(StartDate=ORDER_HISTORY_START_DATE, EndDate=ORDER_HISTORY_END_DATE)
+        order_history = api.GetAllTransactionHistory(segment = SegmentTypeEnum.EQUITY, fromDate = "2023-10-06", toDate = "2023-11-06")  
     except Exception as e:
         return f"Error fetching order history: {e}", 500
 
